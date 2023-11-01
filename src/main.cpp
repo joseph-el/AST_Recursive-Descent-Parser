@@ -1,19 +1,20 @@
-# include "Calculator.hpp"
+# include "../inc/Calculator.hpp"
 
 int calculator(__unused int argc,__unused char *argv[] ) {
     tokenization* tokens = nullptr;
+    stringstream ss;
     // ast* root;
     string prompt;
 
     while (true) {
-        // int _eof;
         _gnl("equation :> ", prompt);
-        // if (_eof ^ -1 or false) // NOTE: check if parse return false
-        //     continue;
-        stringstream ss(prompt);
+
+        ss.str(prompt);
         tokens = lexer(ss);
-        
-        tokens->printTokens();
+        // root = parser(tokens);
+        // print_tree(root, 0);
+        // equationResult(root);
+        // tokens->printTokens();
 
         Mgr.clearHeap();
     }

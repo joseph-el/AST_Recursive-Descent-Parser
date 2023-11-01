@@ -5,16 +5,15 @@
 ## % / *
 ## + - binary 
 ## !
+                    + - (
+
+##                    <==>  ```(``` <==>
+##
+##
+##
 
 
-#      task: () * - + / % ^ ! BEGIN END number
-#      unary:   + - ! digit
-#      binary: * - / % ^
 
-#         binary , '('  <  ``! + -``  > digit
-
-#            < ``* - / % ^`` >
-                                  
 
 
 ``the proper precedence and associativity ``

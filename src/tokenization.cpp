@@ -1,4 +1,4 @@
-#include "token.hpp"
+#include "../inc/tokenization.hpp"
 
 Token tokenization::getToken(const char &target) {
 
@@ -40,7 +40,8 @@ int tokenization::consumeNumbers(stringstream &prompt, Token ret) {
     int number = atoi(digits.c_str());
     if (ret & ~DIGIT)
         getBack(prompt);
-    ret = (size() > 0) ? back().second : UNKNOWN;        
+    ret = (size() > 0) ? back().second : UNKNOWN;
+    if (ret != UNKNOWN) pop_back();      
     sign = (ret == Subtraction) ? -1 : 1;
     return number * sign;
 }
@@ -104,76 +105,114 @@ int tokenization::FindToken(Itr curr, bool mode) {
     return ( (curr == begin() && curr->second == WSPACE) ? -1 :  curr->second);
 }
 
-
-#define V_LPAR_LEFT  ( DIGIT | Addition | Factorial | Subtraction | Multiplication | Exponentiation | BEGIN)
-#define V_LPAR_RIGHT (LPAR | DIGIT | Factorial | Subtraction | Addition)
-
-#define V_RPAR_LEFT  (RPAR | DIGIT)
-#define V_RPAR_RIGHT (END | LPAR)
-
-
-bool tokenization::parenthesesSyntax(Itr &curr, bool mode) {
-    int left, right;
-    int l_par, r_par;
-
-    l_par = r_par = 0;
-    if (mode) {
-        for (auto it = begin(); it != end(); it++)
-            l_par += (it->second == LPAR),
-            r_par += (it->second == RPAR);
-        l_par += r_par;
-        if (!(l_par % 2))
-            return error(UNEXPECTED, '('), false;
-        return true;
+bool tokenization::unexpectedSyntax() {
+    auto l_par = 0, r_par = 0;
+    for (auto it = begin(); it != end(); it++) {
+        l_par += (it->second == LPAR);
+        r_par += (it->second == RPAR);
+        if (it->second & UNKNOWN)
+            return error(UNEXPECTED, (char)it->first), true;
     }
-    if (curr->second & ~(RPAR | LPAR))
+    if (l_par += r_par; !(l_par % 2))
+        return error(UNEXPECTED, ')'), true;
+    return !size() ? 1 : 0;
+}
+
+bool tokenization::parenthesesSyntax(Itr &current) {
+    auto left = 0 , right = 0;
+    if (current->second & ~(RPAR | LPAR))
         return true;
-    left = FindToken(curr - 1, true);
-    right = FindToken(curr + 1, false);
+    right = FindToken(current + 1, false);
+    left  = FindToken(current - 1, true);
+
+    switch (current->second)
+    {
+        case LPAR:
+            if (left != -1 && left &~ V_LPAR_LEFT)
+                error(UNEXPECTED, '('); goto unvalid;
+            if (right != -1 && right &~ V_LPAR_RIGHT)
+                error(UNEXPECTED, '('); goto unvalid;
+            break;
     
-    if ((curr->second & LPAR) && (left & ~(V_LPAR_LEFT) || right & ~(V_LPAR_RIGHT)))
-        return error(UNEXPECTED, '('), false;
-
-    if ((curr->second & RPAR) && (left & ~(V_RPAR_LEFT) || right & ~(V_RPAR_RIGHT)))
-        return error(UNEXPECTED, '('), false;
-    return true;
-}
-
-bool tokenization::unarySyntax(Itr &curr) {
-
-    Token left, right;
-
-
-
-
-    return true;
-
-}
-
-bool tokenization::unknownSyntax() {
-    for (auto it = begin();it != end(); it++) {
-        if (it->second & UNKNOWN) {
-            error(UNEXPECTED, (char)it->first);
-            return true;
-        }
+        case RPAR:
+            if (left != -1 && left &~ V_RPAR_LEFT)
+                error(UNEXPECTED, ')'); goto unvalid;
+            if (right != -1 && right &~ V_RPAR_RIGHT)
+                error(UNEXPECTED, ')'); goto unvalid;
+            break;
     }
-    return false;
-}
 
-bool tokenization::syntax( void ) {
-    Token left, right;
-    if (unknownSyntax())
+    return true;
+    unvalid:
         return false;
-    for (auto it = begin();it != end(); it++) {
-        if (it->second & UNKNOWN) {
-            error(UNEXPECTED, (char)it->first);
+}
+
+
+bool tokenization::binarySyntax(Itr &) {
+
+}
+
+bool tokenization::unarySyntax(Itr &) {
+
+}
+
+bool tokenization::digitSyntax(Itr &current) {
+    if (current->second &~ DIGIT)
+        return true;
+    
+    auto left = 0 , right = 0;
+    right = FindToken(current + 1, false);
+    left  = FindToken(current - 1, true);
+    
+    if (left != -1 && left &~ V_DIGIT_LEFT)
+        error(UNEXPECTED, (char)left); goto unvalid;
+    if (right != -1 && right &~ V_DIGIT_RIGHT)
+        error(UNEXPECTED, (char)right); goto unvalid;
+    return (true);
+    unvalid:
+        return false;
+}
+
+bool tokenization::syntax() {
+    if (unexpectedSyntax()) // and check ()
+        return false;
+    
+    for (auto it = begin(); it != end(); it++) {
+        bool _syntax = parenthesesSyntax(it) && \
+                       digitSyntax(it) && \
+                       unarySyntax(it) && \
+                       binarySyntax(it);
+        if (!_syntax)
             return false;
-        }
-        if (!unarySyntax(it) or !parenthesesSyntax(it, false))
-            return false;
-    }
+    } 
     return true;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,4 +1,4 @@
-#include "manageHeap.hpp"
+#include "../inc/manageHeap.hpp"
 
 HeapMgr Mgr;
 
