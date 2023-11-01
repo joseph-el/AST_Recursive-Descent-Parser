@@ -6,11 +6,11 @@ HeapMgr::HeapMgr() {
     clear();
 }
 
-bool HeapMgr::insertAddress(void* address) {
+void* HeapMgr::insertAddress(void* address) {
     if (!address)
-        return false;
+        return NULL;
     push_back(address);
-    return true;
+    return address;
 }
 
 void HeapMgr::clearHeap() {

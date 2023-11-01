@@ -1,13 +1,18 @@
 #ifndef __HEAP_H__
 #define __HEAP_H__
 
-#include"token.hpp"
+#include <iostream>
+#include <iterator>
+#include <deque>
+#include <list>
+
+using namespace std;
 
 struct HeapMgr : public deque<void *> {
     public:
         typedef HeapMgr::iterator MgrIt;
         HeapMgr();
-        bool insertAddress(void *);
+        void* insertAddress(void *);
         void clearHeap();
 };
 

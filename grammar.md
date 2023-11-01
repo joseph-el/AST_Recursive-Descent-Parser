@@ -1,9 +1,26 @@
-<digit>  ::= 0...9
-<sign>   ::= '+' | '-'
-<wspace> ::= '\r\t\f 32'
+# Grammar <::>
+## ()
+## ^
+## - + Unary
+## % / *
+## + - binary 
+## !
+
+``the proper precedence and associativity ``
+
+<expression> ::= <term> | <term> "+" <expression> | <term> "-" <expression>
+
+<term> ::= <factor> | <factor> "*" <term> | <factor> "/" <term> | <factor> "%" <term>
+
+<factor> ::= <unary_expression> | <unary_expression> "^" <factor>
+
+<unary_expression> ::= <primary> | "-" <primary> | "+" <primary> | "!" <primary>
+
+<primary> ::= "(" <expression> ")" | <number>
 
 <number> ::= <sign>? <digit> #base case
             | <digit> <number> // recursive rule
 
+<sign>   ::= '+' | '-'
 
-
+<digit>  ::= 0...9

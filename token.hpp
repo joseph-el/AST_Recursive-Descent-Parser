@@ -1,10 +1,7 @@
 # pragma once
-#include <iostream>
-#include <iterator>
-#include <deque>
-#include <list>
+
+#include <sstream>
 #include <set>
-using namespace std;
 
 extern "C" {
     #include <unistd.h>
@@ -13,6 +10,7 @@ extern "C" {
     #include <stdnoreturn.h>
     #include <stdio.h>
 }
+#include "manageHeap.hpp"
 
 enum Token {
     LPAR = (1<<1),
@@ -21,11 +19,17 @@ enum Token {
     UNKNOWN = (1<<4),
     Division = (1<<5),
     Addition = (1<<6),
-    Subtraction = (1<<7),
-    Multiplication = (1<<8),
-    Exponentiation = (1<<9)
+    Factorial = (1<<7),
+    Subtraction = (1<<8),
+    Multiplication = (1<<9),
+    Exponentiation = (1<<10)
 };
 
-typedef int_fast16_t token_type;
+class tokenization : public deque< pair<int, Token> > {
+    public:
+        tokenization();
+        void adding(pair<int, Token>&);
+        Token getToken(const char &);
+};
 
-token_type ScanToken(const char &);
+tokenization* lexer(stringstream &prompt);

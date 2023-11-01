@@ -3,11 +3,10 @@
 int calculator(__unused int argc,__unused char *argv[] ) {
     string prompt;
     while (true) {
-        int eof;
+        int _eof;
         _gnl("equation :> ", prompt);
-        if (eof ^ -1)
+        if (_eof ^ -1 or false) // NOTE: check if parse return false
             continue;
-        
 
         Mgr.clearHeap();
     }
