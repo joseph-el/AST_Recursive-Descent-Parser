@@ -16,7 +16,7 @@ void* HeapMgr::insertAddress(void* address) {
 void HeapMgr::clearHeap() {
     MgrIt it = begin();
     while (it != end()) {
-        delete *it;
+        free(*it);
         it++;
     }
     clear();

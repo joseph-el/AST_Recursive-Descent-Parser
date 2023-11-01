@@ -6,6 +6,17 @@
 ## + - binary 
 ## !
 
+
+#      task: () * - + / % ^ ! BEGIN END number
+#      unary:   + - ! digit
+#      binary: * - / % ^
+
+#         binary , '('  <  ``! + -``  > digit
+
+#            < ``* - / % ^`` >
+                                  
+
+
 ``the proper precedence and associativity ``
 
 <expression> ::= <term> | <term> "+" <expression> | <term> "-" <expression>
@@ -23,4 +34,4 @@
 
 <sign>   ::= '+' | '-'
 
-<digit>  ::= 0...9
+<digit>  ::= 0 ... 9
