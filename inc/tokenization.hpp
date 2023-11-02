@@ -2,27 +2,14 @@
 
 #include <sstream>
 #include <set>
+#include <cmath>
 
 #include "manageHeap.hpp"
 
 #define UNEXPECTED "syntax error near unexpected token "
+#define TOKEN_SIZE 14
 #define TOK (*token)
-
-
-# define V_LPAR_LEFT  (BEGIN)
-
-# define V_LPAR_RIGHT (4)
-
-
-
-# define V_RPAR_LEFT  (8)
-# define V_RPAR_RIGHT (16)
-
-
-# define V_DIGIT_LEFT (1)
-# define V_DIGIT_RIGHT (1)
-
-# define OPT (Division | Factorial)
+#define GET_TOK *token[(int)log2((int)curr->second)]
 
 enum Token {
     LPAR = (1<<1),
@@ -42,6 +29,25 @@ enum Token {
     BEGIN          = (1<<13),
     END            = (1<<14),
 };
+
+                //  /     +      %     -     *     ^
+#define BINARY_OPR (DIV | ADD | MOD | SUB | MUL | POW)
+
+#define V_LPAR_LEFT (BEGIN | DIGIT | BINARY_OPR) // ( left
+#define V_LPAR_RIGHT (DIGIT | LPAR) // ( right
+
+
+#define V_RPAR_LEFT (RPAR | DIGIT | FAC) //  RPAR left
+#define V_RPAR_RIGHT (BINARY_OPR | LPAR | FAC | DIGIT | END) // RPAR right
+
+#define V_FAC_LEFT (RPAR | DIGIT) // ! left
+#define V_FAC_RIGHT (BINARY_OPR | END | LPAR) // ! right
+
+#define V_DIGIT_LEFT (BEGIN | BINARY_OPR | LPAR | RPAR) //  digit left
+#define V_DIGIT_RIGHT (END | FAC | BINARY_OPR | LPAR | RPAR) // digit right
+
+#define V_BINARY_LEFT (DIGIT | RPAR | FAC) // binary left
+#define V_BINARY_RIGHT (LPAR | DIGIT) // binary right
 
 
 
@@ -63,9 +69,9 @@ class tokenization : public deque< pair<int, Token> > {
 
         bool unexpectedSyntax();
         bool parenthesesSyntax(Itr &);
-        bool digitSyntax(Itr &);
         bool binarySyntax(Itr &);
         bool unarySyntax(Itr &);
+    
 
 
         void error(const char *, const char );

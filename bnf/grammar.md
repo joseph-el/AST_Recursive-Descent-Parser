@@ -1,40 +1,30 @@
+
+# SYNTAX RULES
+
+````
+* "(": LPAR
+    - left  : BGN  | - | + | * | / | % | DIGIT | ^ | )
+    - right : DIGIT | (
+
+* ")": RPAR
+    - left  : ) | DIGIT | !
+    - right : ( |  ^ | - | + | * | / | % | ! | DIGIT | END
+
+* "!":
+    - left  : ) | DIGIT
+    - right : END | ^ | - | + | * | / | % | (
+
+* "DIGIT":
+    - left  : BGIN | ^ | - | + | * | / | % | ( | )
+    - right : END | ! | ( | ) | ^ | - | + | * | / | %
+
+* "* / + - % ^":
+    - left  : DIGIT | ) | !
+    - right : ( | DIGIT
+
+````
+
 # Grammar <::>
-## ()
-
-## ^
-## - + Unary
-## % / *
-## + - binary 
-## !
-
-
-
-            
-`` begin - + * / % digit  ^ ) ``  <<left>> '(' <<right>> `` ( digit ``
-
-``  ) digit ! ``                  <<left>> ')' <<right>> `` (  ^ - + * / % ! digit END ``
-
-`` ) digit`` <<left>> ! <<right>> ``END ^ - + * / % (``
-
-`` BGIN  ^ - + * / % ( )``  <<left>> digit <<right>> `` !  END ( )  ^ - + * / % ``
-
-`` digit ) ! ``    <<left>> * / + - % ^ <<right>>   `` ( digit ``
-
-
-
-##          () * ^ % / + - ! BGN END 
-            
-#   `` begin - + * / % digit  ^ ) ``  <<left>> '(' <<right>> `` ( digit ``
-
-#   ``  ) digit ! ``                  <<left>> ')' <<right>> `` (  ^ - + * / % ! digit END ``
-
-#                 `` ) digit`` <<left>> ! <<right>> ``END ^ - + * / % (``
-
-#               `` BGIN  ^ - + * / % ( )``  <<left>> digit <<right>> `` !  END ( )  ^ - + * / % ``
-
-#               `` digit ) ! ``    <<left>> * / + - % ^ <<right>>   `` ( digit ``
-
-    
 
 ``the proper precedence and associativity ``
 
@@ -54,3 +44,17 @@
 <sign>   ::= '+' | '-'
 
 <digit>  ::= 0 ... 9
+
+##          () * ^ % / + - !    BGN END 
+            
+   `` begin - + * / % digit  ^ ) ``  <<left>> '(' <<right>> `` ( digit ``
+
+   ``  ) digit ! ``                  <<left>> ')' <<right>> `` (  ^ - + * / % ! digit END ``
+
+                 `` ) digit`` <<left>> ! <<right>> ``END ^ - + * / % (``
+
+               `` BGIN  ^ - + * / % ( )``  <<left>> digit <<right>> `` !  END ( )  ^ - + * / % ``
+
+               `` digit ) ! ``    <<left>> * / + - % ^ <<right>>   `` ( digit ``
+
+    

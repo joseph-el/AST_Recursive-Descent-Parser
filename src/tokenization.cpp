@@ -125,8 +125,7 @@ bool tokenization::parenthesesSyntax(Itr &current) {
     right = FindToken(current + 1, false);
     left  = FindToken(current - 1, true);
     
-    switch (current->second)
-    {
+    switch (current->second) {
         case LPAR:
             if (left != -1 && left &~ V_LPAR_LEFT)
                 error(UNEXPECTED, '('); goto unvalid;
@@ -147,30 +146,51 @@ bool tokenization::parenthesesSyntax(Itr &current) {
         return false;
 }
 
+const char* token[TOKEN_SIZE] = {"(", ")", "0", "WSPACE", "UNK", "/", "+", "%", "-", "*", "^", "!"};
 
-bool tokenization::binarySyntax(Itr &) {
-
-}
-
-bool tokenization::unarySyntax(Itr &) {
-
-}
-
-bool tokenization::digitSyntax(Itr &current) {
-    if (current->second &~ DIGIT)
+bool tokenization::binarySyntax(Itr &curr) {
+    if (curr->second &~ BINARY_OPR)
         return true;
     
     auto left = 0 , right = 0;
-    right = FindToken(current + 1, false);
-    left  = FindToken(current - 1, true);
-    
-    if (left != -1 && left &~ V_DIGIT_LEFT)
-        error(UNEXPECTED, (char)left); goto unvalid;
-    if (right != -1 && right &~ V_DIGIT_RIGHT)
-        error(UNEXPECTED, (char)right); goto unvalid;
-    return (true);
+    right = FindToken(curr + 1, false);
+    left  = FindToken(curr - 1, true);
+
+    if (left != -1 && left &~ V_BINARY_LEFT)
+            error(UNEXPECTED, GET_TOK); goto unvalid;
+    if (right != -1 && right &~ V_BINARY_RIGHT)
+            error(UNEXPECTED, GET_TOK); goto unvalid;
+    return true;
     unvalid:
         return false;
+}
+
+bool tokenization::unarySyntax(Itr &curr) {
+    if (curr->second & ~(DIGIT | FAC))
+        return true;
+    
+    auto left = 0 , right = 0;
+    right = FindToken(curr + 1, false);
+    left  = FindToken(curr - 1, true);
+
+    switch (curr->second) {
+        case DIGIT:
+            if (left != -1 && left &~ V_DIGIT_LEFT)
+                error(UNEXPECTED, GET_TOK); goto unvalid;
+            if (right != -1 && right &~ V_DIGIT_RIGHT)
+                error(UNEXPECTED, GET_TOK); goto unvalid;
+            break;
+    
+        case FAC:
+            if (left != -1 && left &~ V_FAC_LEFT)
+                error(UNEXPECTED, GET_TOK); goto unvalid;
+            if (right != -1 && right &~ V_FAC_RIGHT)
+                error(UNEXPECTED, GET_TOK); goto unvalid;
+            break;
+    }
+    return true;
+    unvalid:
+        return false;   
 }
 
 bool tokenization::syntax() {
@@ -179,8 +199,8 @@ bool tokenization::syntax() {
     
     for (auto it = begin(); it != end(); it++) {
         bool _syntax = parenthesesSyntax(it) && \
-                       digitSyntax(it) && \
                        unarySyntax(it) && \
+                       binarySyntax(it) && \
                        binarySyntax(it);
         if (!_syntax)
             return false;
