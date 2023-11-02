@@ -12,7 +12,7 @@
 
 * "!":
     - left  : ) | DIGIT
-    - right : END | ^ | - | + | * | / | % | (
+    - right : END | ^ | - | + | * | / | % | )
 
 * "DIGIT":
     - left  : BGIN | ^ | - | + | * | / | % | ( | )

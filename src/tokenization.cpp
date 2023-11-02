@@ -1,5 +1,7 @@
 #include "../inc/tokenization.hpp"
 
+const char* token[TOKEN_SIZE] = {"END", "BEGIN",  "(", ")", "0", "WSPACE", "UNK", "/", "+", "%", "-", "*", "^", "!"};
+
 Token tokenization::getToken(const char &target) {
 
     switch (target) {
@@ -41,8 +43,8 @@ int tokenization::consumeNumbers(stringstream &prompt, Token ret) {
     if (ret & ~DIGIT)
         getBack(prompt);
     ret = (size() > 0) ? back().second : UNKNOWN;
-    if (ret != UNKNOWN) pop_back();      
-    sign = (ret == Subtraction) ? -1 : 1;
+    if (ret & (SUB|ADD)) pop_back();      
+    sign = (ret == SUB) ? -1 : 1;
     return number * sign;
 }
 
@@ -65,8 +67,9 @@ tokenization* lexer(stringstream& prompt) {
     token = (tokenization*)Mgr.insertAddress(new tokenization());
     if (!token)
         return nullptr;
-    while (!prompt.eof()) {
-        prompt.get(_c);
+
+    while (prompt.get(_c)) {
+
         Token ret = TOK.getToken(_c);
         if (ret & WSPACE) 
             TOK.consumeWspace(prompt);
@@ -80,6 +83,7 @@ tokenization* lexer(stringstream& prompt) {
             return token;
         }
     }
+    TOK.push_back(make_pair(-1, END));
     return token;
 }
 
@@ -88,9 +92,10 @@ void tokenization::getBack(stringstream& ss) {
     ss.seekg(pos - 1);
 }
 
-void error(const char *msg, const char spc) {
-    cerr << msg << endl;
-    cerr << spc << endl;
+void tokenization::error(const char *msg, const char spc) {
+    cerr << msg;
+    cerr << " " << spc;
+    cerr << endl;
 }
 
 int tokenization::FindToken(Itr curr, bool mode) {
@@ -107,96 +112,109 @@ int tokenization::FindToken(Itr curr, bool mode) {
 
 bool tokenization::unexpectedSyntax() {
     auto l_par = 0, r_par = 0;
+
     for (auto it = begin(); it != end(); it++) {
         l_par += (it->second == LPAR);
         r_par += (it->second == RPAR);
         if (it->second & UNKNOWN)
             return error(UNEXPECTED, (char)it->first), true;
     }
-    if (l_par += r_par; !(l_par % 2))
-        return error(UNEXPECTED, ')'), true;
+     
+    if (l_par += r_par; (l_par % 2))
+        return error("unclosed ", ')'), true;
     return !size() ? 1 : 0;
 }
 
 bool tokenization::parenthesesSyntax(Itr &current) {
-    auto left = 0 , right = 0;
     if (current->second & ~(RPAR | LPAR))
         return true;
+
+    auto left = 0 , right = 0, sys = 0;
+
     right = FindToken(current + 1, false);
     left  = FindToken(current - 1, true);
     
     switch (current->second) {
         case LPAR:
             if (left != -1 && left &~ V_LPAR_LEFT)
-                error(UNEXPECTED, '('); goto unvalid;
-            if (right != -1 && right &~ V_LPAR_RIGHT)
-                error(UNEXPECTED, '('); goto unvalid;
+                error(UNEXPECTED, '('), sys = true;
+            else if (right != -1 && right &~ V_LPAR_RIGHT)
+                error(UNEXPECTED, '('), sys = true;
             break;
     
         case RPAR:
             if (left != -1 && left &~ V_RPAR_LEFT)
-                error(UNEXPECTED, ')'); goto unvalid;
-            if (right != -1 && right &~ V_RPAR_RIGHT)
-                error(UNEXPECTED, ')'); goto unvalid;
+                error(UNEXPECTED, ')'), sys = true;
+            else if (right != -1 && right &~ V_RPAR_RIGHT)
+                error(UNEXPECTED, ')'), sys = true;
+            break;
+        default:
             break;
     }
-
-    return true;
-    unvalid:
-        return false;
+    // if (sys)
+    //     cout << "syntax parenthese false \n";
+    return !sys ? true : false;
 }
-
-const char* token[TOKEN_SIZE] = {"(", ")", "0", "WSPACE", "UNK", "/", "+", "%", "-", "*", "^", "!"};
 
 bool tokenization::binarySyntax(Itr &curr) {
     if (curr->second &~ BINARY_OPR)
         return true;
     
-    auto left = 0 , right = 0;
+    auto left = 0 , right = 0, sys = 0;
+
     right = FindToken(curr + 1, false);
     left  = FindToken(curr - 1, true);
 
     if (left != -1 && left &~ V_BINARY_LEFT)
-            error(UNEXPECTED, GET_TOK); goto unvalid;
-    if (right != -1 && right &~ V_BINARY_RIGHT)
-            error(UNEXPECTED, GET_TOK); goto unvalid;
-    return true;
-    unvalid:
-        return false;
+            error(UNEXPECTED, GET_TOK), sys = true;
+    else if (right != -1 && right &~ V_BINARY_RIGHT)
+            error(UNEXPECTED, GET_TOK), sys = true;
+    
+    // if (sys)
+    //     cout << "syntax binary false\n";
+
+    return !sys ? true : false;
 }
 
 bool tokenization::unarySyntax(Itr &curr) {
     if (curr->second & ~(DIGIT | FAC))
         return true;
     
-    auto left = 0 , right = 0;
+    auto left = 0 , right = 0, sys = 0;
+
     right = FindToken(curr + 1, false);
     left  = FindToken(curr - 1, true);
+    
+    // cout << "l: " << left << endl;
+    // cout << "r: " << right << endl;
+    // cout << "check right:" << token[(int)log2((int)right ) - 1] << endl;
+    // cout << "check left:"  << token[(int)log2((int)left ) - 1] << endl;
 
     switch (curr->second) {
         case DIGIT:
             if (left != -1 && left &~ V_DIGIT_LEFT)
-                error(UNEXPECTED, GET_TOK); goto unvalid;
-            if (right != -1 && right &~ V_DIGIT_RIGHT)
-                error(UNEXPECTED, GET_TOK); goto unvalid;
+                error(UNEXPECTED, GET_TOK), sys = true;
+            else if (right != -1 && right &~ V_DIGIT_RIGHT)
+                error(UNEXPECTED, GET_TOK), sys = true;
             break;
-    
         case FAC:
             if (left != -1 && left &~ V_FAC_LEFT)
-                error(UNEXPECTED, GET_TOK); goto unvalid;
-            if (right != -1 && right &~ V_FAC_RIGHT)
-                error(UNEXPECTED, GET_TOK); goto unvalid;
+                error(UNEXPECTED, GET_TOK), sys = true;
+            else if (right != -1 && right &~ V_FAC_RIGHT)
+                error(UNEXPECTED, GET_TOK), sys = true;
+            break;
+        default:
             break;
     }
-    return true;
-    unvalid:
-        return false;   
+
+    // if (sys)
+    //     cout << "syntax unary false \n";
+    return !sys ? true : false;  
 }
 
 bool tokenization::syntax() {
     if (unexpectedSyntax())
         return false;
-    
     for (auto it = begin(); it != end(); it++) {
         bool _syntax = parenthesesSyntax(it) && \
                        unarySyntax(it) && \
@@ -204,7 +222,7 @@ bool tokenization::syntax() {
                        binarySyntax(it);
         if (!_syntax)
             return false;
-    } 
+    }
     return true;
 }
 
@@ -287,6 +305,11 @@ void tokenization::printTokens(void) {
                 cout << UNEXPECTED << "\'" << (char)it->first << "\'";
                 goto end;
                 break;
+            case BEGIN:
+                cout << " [BEGIN] ";
+                break;
+            case END:
+                cout << " [END] ";
         }
     }
     end: 

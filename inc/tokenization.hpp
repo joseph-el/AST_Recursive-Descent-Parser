@@ -9,25 +9,26 @@
 #define UNEXPECTED "syntax error near unexpected token "
 #define TOKEN_SIZE 14
 #define TOK (*token)
-#define GET_TOK *token[(int)log2((int)curr->second)]
+#define GET_TOK *token[(int)log2((int)curr->second) - 1]
 
 enum Token {
-    LPAR = (1<<1),
-    RPAR = (1<<2),
-    DIGIT = (1<<3),
-    WSPACE = (1<<4),
-    UNKNOWN = (1<<5),
 
-    DIV = (1 << 6),
-    ADD = (1 << 7),
-    MOD = (1 << 8),
-    SUB = (1 << 10),
-    MUL = (1 << 11),
-    POW = (1 << 12),
-    FAC = (1 << 8),
-    
-    BEGIN          = (1<<13),
-    END            = (1<<14),
+    END     = (1<<1),
+    BEGIN   = (1<<2),
+
+    LPAR    = (1<<3),
+    RPAR    = (1<<4),
+    DIGIT   = (1<<5),
+    WSPACE  = (1<<6),
+    UNKNOWN = (1<<7),
+
+    DIV = (1 << 8),
+    ADD = (1 << 9),
+    MOD = (1 << 10),
+    SUB = (1 << 11),
+    MUL = (1 << 12),
+    POW = (1 << 13),
+    FAC = (1 << 14)
 };
 
                 //  /     +      %     -     *     ^
@@ -41,7 +42,7 @@ enum Token {
 #define V_RPAR_RIGHT (BINARY_OPR | LPAR | FAC | DIGIT | END) // RPAR right
 
 #define V_FAC_LEFT (RPAR | DIGIT) // ! left
-#define V_FAC_RIGHT (BINARY_OPR | END | LPAR) // ! right
+#define V_FAC_RIGHT (BINARY_OPR | END | RPAR) // ! right
 
 #define V_DIGIT_LEFT (BEGIN | BINARY_OPR | LPAR | RPAR) //  digit left
 #define V_DIGIT_RIGHT (END | FAC | BINARY_OPR | LPAR | RPAR) // digit right
