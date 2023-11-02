@@ -8,19 +8,19 @@ Token tokenization::getToken(const char &target) {
         case ')':
             return RPAR;
         case '^':
-            return Exponentiation;
+            return POW;
         case '-':
-            return Subtraction;
+            return SUB;
         case '+':
-            return Addition;
+            return ADD;
         case '%':
-            return Modulation;
+            return MOD;
         case '/':
-            return Division;
+            return DIV;
         case '*':
-            return Multiplication;
+            return MUL;
         case '!':
-            return Factorial;
+            return FAC;
     }
     return isspace(target) ? WSPACE : (isdigit(target) ? DIGIT : UNKNOWN);
 }
@@ -124,7 +124,7 @@ bool tokenization::parenthesesSyntax(Itr &current) {
         return true;
     right = FindToken(current + 1, false);
     left  = FindToken(current - 1, true);
-
+    
     switch (current->second)
     {
         case LPAR:
@@ -174,7 +174,7 @@ bool tokenization::digitSyntax(Itr &current) {
 }
 
 bool tokenization::syntax() {
-    if (unexpectedSyntax()) // and check ()
+    if (unexpectedSyntax())
         return false;
     
     for (auto it = begin(); it != end(); it++) {
@@ -231,31 +231,31 @@ void tokenization::printTokens(void) {
                 cout << " )";
                 break;
 
-            case Division:
+            case DIV:
                 cout << " / ";
                 break;
 
-            case Addition:
+            case ADD:
                 cout << " + ";
                 break;
 
-            case Factorial:
+            case FAC:
                 cout << " ! ";
                 break;
 
-            case Modulation:
+            case MOD:
                 cout << " % ";
                 break;
 
-            case Subtraction:
+            case SUB:
                 cout << " - ";
                 break;
 
-            case Multiplication:
+            case MUL:
                 cout << " * ";
                 break;
 
-            case Exponentiation:
+            case POW:
                 cout << " ^ ";
                 break;
 
@@ -272,3 +272,7 @@ void tokenization::printTokens(void) {
     end: 
     cout << endl;
 }
+
+
+
+ 
