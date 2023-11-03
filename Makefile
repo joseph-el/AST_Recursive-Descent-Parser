@@ -1,6 +1,6 @@
 NAME := ast #set to rdb
 
-FLAGS := -std=c++20 -fsanitize=address -g3
+FLAGS := -std=c++17 -fsanitize=address -g3
 SRC := src/manageHeap.cpp src/tokenization.cpp src/main.cpp
 HDR := inc/Calculator.hpp inc/manageHeap.hpp inc/tokenization.hpp
 

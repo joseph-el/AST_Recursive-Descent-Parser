@@ -34,7 +34,7 @@ enum Token {
                 //  /     +      %     -     *     ^
 #define BINARY_OPR (DIV | ADD | MOD | SUB | MUL | POW)
 
-#define V_LPAR_LEFT (BEGIN | DIGIT | BINARY_OPR) // ( left
+#define V_LPAR_LEFT (BEGIN | DIGIT | BINARY_OPR | RPAR) // ( left
 #define V_LPAR_RIGHT (DIGIT | LPAR) // ( right
 
 
@@ -64,6 +64,7 @@ class tokenization : public deque< pair<int, Token> > {
         int  consumeNumbers(stringstream&, Token ret = DIGIT);
         void consumeWspace(stringstream&, Token ret = WSPACE);
         void getBack(stringstream&);
+        void expander();
         int FindToken(Itr , bool);
 
         bool syntax();

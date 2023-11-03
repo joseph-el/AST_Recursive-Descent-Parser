@@ -1,11 +1,35 @@
 # pragma once
 
-# include "token.hpp"
+# include "tokenization.hpp"
+
+class ast {
+    int           val;
+    Token         token;
+    struct s_ast* left;
+    struct s_ast* right;
+
+    
+    /**
+     *         Binary | ! | DIGIT | LPAR & RPAR 
+    */
+    ast() : val(-1) , token((Token)0), left(__null), right(__null) {}
+
+};
+
+typedef pair<int, Token> t_pair;
 
 
-struct ast {
-    Token       typp;
+ast* parser(tokenization* );
 
-    struct ast* left;
-    struct ast* right;
-}
+
+ast* expression() ;
+
+ast* term();
+
+ast* factor();
+
+ast* unary_expression();
+
+ast* primary();
+
+ast* number();

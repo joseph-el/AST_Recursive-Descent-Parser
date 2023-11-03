@@ -14,8 +14,10 @@ int calculator(__unused int argc, __unused char *argv[] ) {
         // print_tree(root, 0);
         // equationResult(root);
         
-        if (tokens and tokens->syntax())
+        if (tokens and tokens->syntax()) {
+            tokens->expander();
             tokens->printTokens();
+        }
 
         Mgr.clearHeap();
         tokens = __null;

@@ -1,6 +1,51 @@
 #include "../inc/tokenization.hpp"
 
 const char* token[TOKEN_SIZE] = {"END", "BEGIN",  "(", ")", "0", "WSPACE", "UNK", "/", "+", "%", "-", "*", "^", "!"};
+ /* Lexer */
+tokenization* lexer(stringstream& prompt) {
+
+    tokenization* token;
+    char          _c = 0;
+    int           _number = 0;
+    token = (tokenization*)Mgr.insertAddress(new tokenization());
+    if (!token)
+        return nullptr;
+
+    while (prompt.get(_c)) {
+
+        Token ret = TOK.getToken(_c);
+        if (ret & WSPACE) 
+            TOK.consumeWspace(prompt);
+        else if (ret & ~(DIGIT | WSPACE | UNKNOWN))
+            TOK.push_back(make_pair(-1, ret));
+        else if (ret & DIGIT) {
+            _number = TOK.consumeNumbers(prompt);
+            TOK.push_back(make_pair(_number, DIGIT));
+        } else if (ret & UNKNOWN) {
+            TOK.push_back(make_pair(_c, UNKNOWN));
+            return token;
+        }
+    }
+    TOK.push_back(make_pair(-1, END));
+    return token;
+}
+
+void tokenization::expander( void ) {
+    
+    for (Itr it = begin(); it != end(); it++) {
+        if (it->second & WSPACE) 
+            erase(it);
+    
+        else if (it->second & FAC) {
+            Itr tmp = it;
+            it--;
+            int num = it->first;
+            erase(it);
+            tmp->first = num;
+            it = tmp;
+        }
+    }
+}
 
 Token tokenization::getToken(const char &target) {
 
@@ -33,8 +78,7 @@ int tokenization::consumeNumbers(stringstream &prompt, Token ret) {
     string digits = "";
 
     getBack(prompt);
-    while (!prompt.eof() and ret & DIGIT) {
-        prompt.get(_c);
+    while (ret & DIGIT && prompt.get(_c)) {
         ret = getToken(_c);
         if (ret & DIGIT && !prompt.eof())
             digits += _c;
@@ -42,49 +86,22 @@ int tokenization::consumeNumbers(stringstream &prompt, Token ret) {
     int number = atoi(digits.c_str());
     if (ret & ~DIGIT)
         getBack(prompt);
-    ret = (size() > 0) ? back().second : UNKNOWN;
-    if (ret & (SUB|ADD)) pop_back();      
-    sign = (ret == SUB) ? -1 : 1;
+    sign = (size() > 1) ? FindToken(end() - 2, true) : 0;
+    ret  = (size() > 1) ? back().second : UNKNOWN;
+    if (ret & (SUB|ADD) && sign & (BINARY_OPR | LPAR | BEGIN))
+        pop_back();      
+    sign = (ret == SUB && sign & (BINARY_OPR | LPAR | BEGIN) ) ? -1 : 1;
+
     return number * sign;
 }
 
 void tokenization::consumeWspace(stringstream& prompt, Token ret) {
     char _c = 0;
     push_back(make_pair(-1, WSPACE));
-    while (!prompt.eof() and ret & WSPACE) {
-        prompt.get(_c);
+    while (ret & WSPACE && prompt.get(_c))
         ret = getToken(_c);
-    }
     if (ret & ~(WSPACE))
         getBack(prompt);
-}
-
-tokenization* lexer(stringstream& prompt) {
-
-    tokenization* token;
-    char          _c = 0;
-    int           _number = 0;
-    token = (tokenization*)Mgr.insertAddress(new tokenization());
-    if (!token)
-        return nullptr;
-
-    while (prompt.get(_c)) {
-
-        Token ret = TOK.getToken(_c);
-        if (ret & WSPACE) 
-            TOK.consumeWspace(prompt);
-        else if (ret & ~(DIGIT | WSPACE | UNKNOWN))
-            TOK.push_back(make_pair(-1, ret));
-        else if (ret & DIGIT) {
-            _number = TOK.consumeNumbers(prompt);
-            TOK.push_back(make_pair(_number, DIGIT));
-        } else if (ret & UNKNOWN) {
-            TOK.push_back(make_pair(_c, UNKNOWN));
-            return token;
-        }
-    }
-    TOK.push_back(make_pair(-1, END));
-    return token;
 }
 
 void tokenization::getBack(stringstream& ss) {
@@ -109,6 +126,9 @@ int tokenization::FindToken(Itr curr, bool mode) {
         curr --;
     return ( (curr == begin() && curr->second == WSPACE) ? -1 :  curr->second);
 }
+
+
+/*    *Math operator Syntax*    */
 
 bool tokenization::unexpectedSyntax() {
     auto l_par = 0, r_par = 0;
@@ -278,7 +298,7 @@ void tokenization::printTokens(void) {
                 break;
 
             case FAC:
-                cout << " ! ";
+                cout << " !(" << it->first << ")"; 
                 break;
 
             case MOD:

@@ -34,7 +34,7 @@
 
 <factor> ::= <unary_expression> | <unary_expression> "^" <factor>
 
-<unary_expression> ::= <primary> | "-" <primary> | "+" <primary> | "!" <primary>
+<unary_expression> ::=  <primary> "!"
 
 <primary> ::= "(" <expression> ")" | <number>
 
