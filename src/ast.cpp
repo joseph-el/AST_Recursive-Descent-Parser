@@ -11,13 +11,21 @@ root = expression();
 }
 
 
+void Parser::scanToken() {
+    
+}
+
+Token Parser::currToken() {
+    return (Token)it->second;
+}
+
 ast* Parser::expression() {
 
     ast* root;
     
     root = term();
 
-    wh
+    
 
     return nullptr; 
 }

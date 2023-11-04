@@ -25,6 +25,9 @@ class Parser {
             it = token->begin();
     }
 
+    void   scanToken();
+    Token  currToken();
+
     ast* parser();
 
     ast* expression() ;
