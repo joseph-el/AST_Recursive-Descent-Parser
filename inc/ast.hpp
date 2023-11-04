@@ -5,19 +5,24 @@
 struct ast {
     int           val;
     Token         token;
-    struct s_ast* left;
-    struct s_ast* right;
-    ast() : val(-1) , token((Token)0), left(__null), right(__null) {}
+    struct ast* left;
+    struct ast* right;
+
+//      <left> <right> <Token> <val>
+    ast(ast* _left, ast* _right, Token _token, int _val) : 
+        val(_val) , token(_token), left(_left), right(_right) {}
+    
+    // ast() : val(-1) , token((Token)0), left(__null), right(__null) {} // default
 };
 
 class Parser {
     tokenization* token;
-    Itr *it;
+    Itr it;
 
     public:
     Parser(tokenization*_tokens) : token(_tokens) {
         if (_tokens)
-            it = &token->begin();
+            it = token->begin();
     }
 
     ast* parser();
@@ -35,4 +40,6 @@ class Parser {
     ast* number();
 
 };
+
+#define heap Mgr.insertAddress
 

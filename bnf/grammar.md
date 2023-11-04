@@ -28,7 +28,7 @@
 
 ``the proper precedence and associativity ``
 
-<expression> ::= <term> | <term> "+" <expression> | <term> "-" <expression>
+< > ::= <term> | <term> "+" <expression> | <term> "-" <expression>
 
 <term> ::= <factor> | <factor> "*" <term> | <factor> "/" <term> | <factor> "%" <term>
 
@@ -45,6 +45,14 @@
 
 <digit>  ::= 0 ... 9
 
+
+
+
+
+
+
+
+
 ##          () * ^ % / + - !    BGN END 
             
    `` begin - + * / % digit  ^ ) ``  <<left>> '(' <<right>> `` ( digit ``
@@ -57,4 +65,5 @@
 
                `` digit ) ! ``    <<left>> * / + - % ^ <<right>>   `` ( digit ``
 
-    
+    	if (size && SIZE_MAX / size < n)
+		return (NULL);
