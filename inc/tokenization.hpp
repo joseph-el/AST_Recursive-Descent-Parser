@@ -11,7 +11,7 @@
 #define TOK (*token)
 #define GET_TOK *token[(int)log2((int)curr->second) - 1]
 
-enum Token {
+enum Token : int {
 
     END     = (1<<1),
     BEGIN   = (1<<2),
@@ -52,13 +52,13 @@ enum Token {
 
 
 
-class tokenization : public deque< pair<int, Token> > {
+typedef deque< pair<int, int>>::iterator Itr;
+class tokenization : public deque< pair<int, int> > {
     public:
         
         tokenization() {
             push_back(make_pair(-1, BEGIN));
         }
-        typedef deque< pair<int, Token>>::iterator Itr;
         void adding(pair<int, Token>&);
         Token getToken(const char &);
         int  consumeNumbers(stringstream&, Token ret = DIGIT);

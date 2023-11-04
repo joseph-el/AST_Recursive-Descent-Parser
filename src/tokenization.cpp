@@ -36,14 +36,19 @@ void tokenization::expander( void ) {
         if (it->second & WSPACE) 
             erase(it);
     
-        else if (it->second & FAC) {
-            Itr tmp = it;
-            it--;
-            int num = it->first;
-            erase(it);
-            tmp->first = num;
-            it = tmp;
-        }
+        // else if (it->second & FAC) {
+        //     if ((it-1)->second & RPAR) {
+        //         (it-1)->second |= FAC;
+        //         erase(it);
+        //         continue;
+        //     }
+        //     Itr tmp = it;
+        //     it--;
+        //     int num = it->first;
+        //     erase(it);
+        //     tmp->first = num;
+        //     it = tmp;
+        // }
     }
 }
 
@@ -87,7 +92,7 @@ int tokenization::consumeNumbers(stringstream &prompt, Token ret) {
     if (ret & ~DIGIT)
         getBack(prompt);
     sign = (size() > 1) ? FindToken(end() - 2, true) : 0;
-    ret  = (size() > 1) ? back().second : UNKNOWN;
+    ret  = (Token)( (size() > 1) ? back().second : UNKNOWN );
     if (ret & (SUB|ADD) && sign & (BINARY_OPR | LPAR | BEGIN))
         pop_back();      
     sign = (ret == SUB && sign & (BINARY_OPR | LPAR | BEGIN) ) ? -1 : 1;
@@ -287,6 +292,10 @@ void tokenization::printTokens(void) {
 
             case RPAR:
                 cout << " )";
+                break;
+            
+            case (RPAR | FAC):
+                cout << "(FAC)";
                 break;
 
             case DIV:

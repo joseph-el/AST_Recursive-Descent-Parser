@@ -2,34 +2,37 @@
 
 # include "tokenization.hpp"
 
-class ast {
+struct ast {
     int           val;
     Token         token;
     struct s_ast* left;
     struct s_ast* right;
-
-    
-    /**
-     *         Binary | ! | DIGIT | LPAR & RPAR 
-    */
     ast() : val(-1) , token((Token)0), left(__null), right(__null) {}
+};
+
+class Parser {
+    tokenization* token;
+    Itr *it;
+
+    public:
+    Parser(tokenization*_tokens) : token(_tokens) {
+        if (_tokens)
+            it = &token->begin();
+    }
+
+    ast* parser();
+
+    ast* expression() ;
+
+    ast* term();
+
+    ast* factor();
+
+    ast* unary_expression();
+
+    ast* primary();
+
+    ast* number();
 
 };
 
-typedef pair<int, Token> t_pair;
-
-
-ast* parser(tokenization* );
-
-
-ast* expression() ;
-
-ast* term();
-
-ast* factor();
-
-ast* unary_expression();
-
-ast* primary();
-
-ast* number();
