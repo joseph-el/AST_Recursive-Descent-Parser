@@ -278,7 +278,6 @@ bool tokenization::syntax() {
 
 
 
-
 void tokenization::printTokens(void) {
     for (auto it = begin(); it != end(); it++) {
         int ret = it->second;

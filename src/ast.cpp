@@ -12,19 +12,29 @@ root = expression();
 
 
 void Parser::scanToken() {
-    
+    it += (it != token->end());
 }
 
 Token Parser::currToken() {
-    return (Token)it->second;
+    return it != token->end() ? (Token)it->second : END;
 }
 
 ast* Parser::expression() {
 
     ast* root;
-    
+    Token tok;
+
     root = term();
 
+    while (true) {
+        tok = currToken();
+        if (tok & ADD | SUB) {
+
+
+            root = 
+        }
+
+    }
     
 
     return nullptr; 

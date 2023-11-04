@@ -53,6 +53,7 @@ enum Token : int {
 
 
 typedef deque< pair<int, int>>::iterator Itr;
+
 class tokenization : public deque< pair<int, int> > {
     public:
         
