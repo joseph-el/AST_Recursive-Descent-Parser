@@ -11,8 +11,6 @@ struct ast {
 //      <left> <right> <Token> <val>
     ast(ast* _left, ast* _right, Token _token, int _val) : 
         val(_val) , token(_token), left(_left), right(_right) {}
-    
-    // ast() : val(-1) , token((Token)0), left(__null), right(__null) {} // default
 };
 
 class Parser {
@@ -20,28 +18,20 @@ class Parser {
     Itr it;
 
     public:
-    Parser(tokenization*_tokens) : token(_tokens) {
-        if (_tokens)
-            it = token->begin();
-    }
+        Parser(tokenization*_tokens) : token(_tokens) {
+            if (_tokens)
+                it = token->begin();
+        }
+        ast*   parser();
+        void   scanToken();
+        Token  currToken();
 
-    void   scanToken();
-    Token  currToken();
-
-    ast* parser();
-
-    ast* expression() ;
-
-    ast* term();
-
-    ast* factor();
-
-    ast* unary_expression();
-
-    ast* primary();
-
-    ast* number();
-
+    private:
+        ast* expression() ;
+        ast* term();
+        ast* factor();
+        ast* unary_expression();
+        ast* primary();
 };
 
 #define heap Mgr.insertAddress

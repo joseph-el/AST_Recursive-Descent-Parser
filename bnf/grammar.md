@@ -28,7 +28,7 @@
 
 ``the proper precedence and associativity ``
 
-< > ::= <term> | <term> "+" <expression> | <term> "-" <expression>
+<expression> ::= <term> | <term> "+" <expression> | <term> "-" <expression>
 
 <term> ::= <factor> | <factor> "*" <term> | <factor> "/" <term> | <factor> "%" <term>
 
