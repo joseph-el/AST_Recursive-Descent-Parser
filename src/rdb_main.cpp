@@ -8,20 +8,24 @@ int rdb_main(__unused int argc, __unused char *argv[] ) {
 
     while (true) {
 		prompt = readline(GREEN "equation> " WHITE);
-        stringstream ss(prompt);
+        if (!prompt)
+            break;
+        gc_insert(prompt);
+        stringstream ss(string(prompt));
         tokens = lexer(ss);
         if (!tokens || !tokens->syntax())
-            goto clearHeap;
-        parser = new Parser(tokens);
-        if (!parser || (root = pa)) {
+            goto done;
+        parser = gc_insert(new Parser(tokens));
+        if (!parser || !(root = parser->parser())) {
             tokens->error("", "");
-            goto clearHeap;
+            goto done;
         }
-
-        // print tree
-        print_ast()
-
-        clearHeap:
-
+        print_ast("", root, false);
+        equationResult(root);
+        print_equationResult(tokens, root);
+        done:
+            clearHeap;
     }
+    clearHeap;
+    exit(EXIT_SUCCESS);
 }

@@ -18,4 +18,7 @@ struct HeapMgr : public deque<void *> {
 
 extern HeapMgr Mgr;
 
+#define clearHeap Mgr.clearHeap()
+#define gc_insert(address) (Mgr.insertAddress((address)))
+
 #endif
