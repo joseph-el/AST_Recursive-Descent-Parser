@@ -1,45 +1,4 @@
-<<<<<<< Updated upstream
 # Grammar <::=>
-=======
-# Grammar <::>
-## ()
-
-## ^
-## - + Unary
-## % / *
-## + - binary 
-## !
-
-
-
-
-
-`` begin - + * / % digit  ^ ) ``  <<left>> '(' <<right>> `` ( digit ``
-
-``  ) digit ! ``                  <<left>> ')' <<right>> `` (  ^ - + * / % ! digit END ``
-
-`` ) digit`` <<left>> ! <<right>> ``END ^ - + * / % (``
-
-`` BGIN  ^ - + * / % ( )``  <<left>> digit <<right>> `` !  END ( )  ^ - + * / % ``
-
-`` digit ) ! ``    <<left>> * / + - % ^ <<right>>   `` ( digit ``
-
-
-
-##          () * ^ % / + - ! BGN END 
-            
-#   `` begin - + * / % digit  ^ ) ``  <<left>> '(' <<right>> `` ( digit ``
-
-#   ``  ) digit ! ``                  <<left>> ')' <<right>> `` (  ^ - + * / % ! digit END ``
-
-#                 `` ) digit`` <<left>> ! <<right>> ``END ^ - + * / % (``
-
-#               `` BGIN  ^ - + * / % ( )``  <<left>> digit <<right>> `` !  END ( )  ^ - + * / % ``
-
-#               `` digit ) ! ``    <<left>> * / + - % ^ <<right>>   `` ( digit ``
-
-    
->>>>>>> Stashed changes
 
 ``the proper precedence and associativity ``
 

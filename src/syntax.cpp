@@ -104,7 +104,7 @@ bool tokenization::syntax() {
                        unarySyntax(it) && \
                        binarySyntax(it) && \
                        binarySyntax(it);
-        if (!_syntax)
+        if (!_syntax || (it->second & BEGIN && FindToken(it + 1, false) & END))
             return false;
     }
     expander();

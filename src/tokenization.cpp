@@ -10,7 +10,6 @@ tokenization* lexer(stringstream& prompt) {
     token = (tokenization*)Mgr.insertAddress(new tokenization());
     if (!token)
         return nullptr;
-
     while (prompt.get(_c)) {
         Token ret = TOK.getToken(_c);
         if (ret & WSPACE) 
@@ -131,9 +130,10 @@ int tokenization::FindToken(Itr curr, bool mode) {
     return ( (curr == begin() && curr->second == WSPACE) ? -1 :  curr->second);
 }
 
-
-/*   Print Toknes in deque */
-void tokenization::printTokens(void) {
+# ifndef DEBUG
+    # define DEBUG
+/*   Print Toknes in deque  */
+    void tokenization::printTokens(void) {
     for (auto it = begin(); it != end(); it++) {
         int ret = it->second;
         switch(ret) {
@@ -199,6 +199,6 @@ void tokenization::printTokens(void) {
     cout << endl;
 }
 
-
+# endif
 
  

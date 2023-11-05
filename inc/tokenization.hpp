@@ -49,7 +49,6 @@ class tokenization : public deque< pair<int, int> > {
         int FindToken(Itr , bool);
 
         bool syntax();
-
         bool unexpectedSyntax();
         bool parenthesesSyntax(Itr &);
         bool binarySyntax(Itr &);

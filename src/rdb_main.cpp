@@ -7,20 +7,16 @@ int rdb_main(__unused int argc, __unused char *argv[] ) {
     ast*          root;
 
     while (true) {
-		prompt = readline(GREEN "equation:> " WHITE);
+		prompt = readline(BOLDCYAN "Equation ➤ " BOLDWHITE);
         if (!prompt)
             break;
-
-        add_history(prompt);
-        gc_insert(prompt);
-
+        add_history(prompt), gc_insert(prompt);
         stringstream ss(prompt);
-        tokens = lexer(ss);
-        if (!tokens || !tokens->syntax())
+        if (interpretCommand(ss.str()) || !(tokens = lexer(ss)) || !tokens->syntax())
             goto done;
         parser = (Parser *)gc_insert(new Parser(tokens));
         if (!parser || !(root = parser->parser())) {
-            tokens->error(UNEXPECTED);
+            tokens->error("parser: " UNEXPECTED);
             goto done;
         }
         try {

@@ -22,11 +22,11 @@ void print_ast(const string& prefix, const ast* root, bool isLeft)
 void equationResult(tokenization* tokens, ast*root) {
     Itr it;
 
-    cout << "equation :";
+    cout << endl << "Equation :";
     for (it = tokens->begin(); it != tokens->end(); it++) {
         if (it->second & (BEGIN | END))
             continue;
-        cout << " " << (it->second & DIGIT ? to_string(it->first) : tokenType[(int)log2((int)root->token) - 1]);
+        cout << " " << (it->second & DIGIT ? to_string(it->first) : tokenType[(int)log2(it->second) - 1]);
     }
-    cout << endl << "result : " << root->val << endl;
+    cout << endl << "Result   : " << root->val << endl << endl;
 }

@@ -1,9 +1,5 @@
 # include "rdb_main.hpp"
 
-#define left_value  root->left->val
-#define right_value root->right->val
-#define current_value root->val
-
 double _plus(double X, double Y) {
     return X + Y;
 }
@@ -18,7 +14,7 @@ double _multiply(double X, double Y) {
 
 double _divide(double X, double Y) {
     if (!Y) {
-        cerr << "parser: " << "Division by zero is not allowed\n";
+        cerr << endl << "parser: " << "Division by zero is not allowed\n" << endl;
         throw -1;
     }
     return X / Y;

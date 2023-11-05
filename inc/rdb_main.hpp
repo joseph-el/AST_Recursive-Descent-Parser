@@ -4,7 +4,7 @@
 extern "C" {
     # include <readline/history.h>
     # include <readline/readline.h>
-    #include   <unistd.h>
+    # include   <unistd.h>
 }
 
 #include  "manageHeap.hpp"
@@ -13,6 +13,10 @@ extern "C" {
 #include  "ast.hpp"
 
 #define rdb_main main
+
+#define left_value    root->left->val
+#define right_value   root->right->val
+#define current_value root->val
 
 /* Terminal Color */
 #define RESET   "\033[0m"
@@ -30,11 +34,22 @@ extern "C" {
 #define BOLDYELLOW  "\033[1m\033[33m"      /* Bold Yellow */
 #define BOLDBLUE    "\033[1m\033[34m"      /* Bold Blue */
 #define BOLDMAGENTA "\033[1m\033[35m"      /* Bold Magenta */
-#define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
+#define BOLDCYAN    "\033[0m\033[36m"      /* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
 void print_ast(const string&, const ast*, bool);
 void equationResult(tokenization*, ast*);
 void eval(ast*);
+
+template <typename StringType>
+bool interpretCommand(const StringType& str) {
+    if (str == "clear")
+        return system("clear"), true;
+    if (str == "exit")
+        exit(EXIT_SUCCESS);
+    if (str == "reset")
+        return system("reset"), true;
+    return false;
+}
 
 #endif

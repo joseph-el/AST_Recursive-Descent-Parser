@@ -5,6 +5,7 @@ ast* Parser::parser() {
     root = expression();
     if(!root || it->second &~ END)
         return nullptr;
+    cout << endl << "Ast : " << endl;
     return root;
 }
 

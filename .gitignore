@@ -1,0 +1,15 @@
+*.o
+*.obj
+*.dll
+*.a
+*.lib
+*.out
+*.app
+.vscode/*
+.DS_STORE
+main.cpp
+.DS_Store
+.ds_store
+tmp/*
+rdb_exec
+*.dSYM

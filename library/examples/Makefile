@@ -32,7 +32,7 @@ datadir = ${datarootdir}
 
 top_srcdir = ..
 #BUILD_DIR = .
-BUILD_DIR = /Users/yoel-idr/Desktop/ast/library
+BUILD_DIR = /Users/joseph/Desktop/rdb/library
 installdir = $(datadir)/readline
 
 INSTALL = /usr/bin/install -c
