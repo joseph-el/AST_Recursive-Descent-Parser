@@ -10,6 +10,7 @@
 main.cpp
 .DS_Store
 .ds_store
+.DS_Store
 *.so
 tmp/*
 rdb_exec
