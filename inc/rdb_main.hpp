@@ -2,7 +2,8 @@
 #define __RDB_H__
 
 extern "C" {
-    #include  "readline.h"
+    # include <readline/history.h>
+    # include <readline/readline.h>
     #include   <unistd.h>
 }
 

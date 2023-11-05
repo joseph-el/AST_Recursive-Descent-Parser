@@ -7,10 +7,13 @@ int rdb_main(__unused int argc, __unused char *argv[] ) {
     ast*          root;
 
     while (true) {
-		prompt = readline((char *)"equation:> ", 0);
+		prompt = readline(GREEN "equation:> " WHITE);
         if (!prompt)
             break;
-        add_history(prompt), gc_insert(prompt);
+
+        add_history(prompt);
+        gc_insert(prompt);
+
         stringstream ss(prompt);
         tokens = lexer(ss);
         if (!tokens || !tokens->syntax())
@@ -20,9 +23,11 @@ int rdb_main(__unused int argc, __unused char *argv[] ) {
             tokens->error(UNEXPECTED);
             goto done;
         }
-        print_ast("", root, false);
-        eval(root);
-        equationResult(tokens, root);
+        try {
+            print_ast("", root, false);
+            eval(root);
+            equationResult(tokens, root);
+        } catch (int) {}
         done:
             clearHeap;
     }

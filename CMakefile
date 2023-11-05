@@ -1,0 +1,5 @@
+LIBPATH := 	library/
+LIB := $(addprefix $(LIBPATH), libreadline.a)
+
+all :
+	cd $(addprefix $(shell pwd),/readline) && bash configure

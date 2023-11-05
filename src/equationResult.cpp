@@ -17,6 +17,10 @@ double _multiply(double X, double Y) {
 }
 
 double _divide(double X, double Y) {
+    if (!Y) {
+        cerr << "parser: " << "Division by zero is not allowed\n";
+        throw -1;
+    }
     return X / Y;
 }
 

@@ -10,22 +10,21 @@ HDRS := $(addprefix $(INC), $(HDRS))
 
 OBJ := $(SRCS:%.cpp=%.o)
 
-LIBPATH := 	lib/
-LIB := $(addprefix $(LIBPATH), readline.a)
 
+LIBPATH := $(addprefix $(shell pwd), /library/)
+LIB     := $(addprefix $(LIBPATH),  libhistory.a  libreadline.a)
 
-all : $(NAME)
+all : $(LIB) $(NAME)
 		@echo "readline [✅]"
 		@echo "rdb_exec [✅]"
 
-$(NAME) : $(LIB) $(OBJ)	
-		@c++ $(FLAGS) $^ -o $@
-
-$(LIB) : $(addprefix $(LIBPATH), readline.h)
-			@make -C  $(LIBPATH) re
+$(NAME) : $(OBJ)
+			cd $(addprefix $(shell pwd), /library) && bash configure
+			make -C  $(LIBPATH) all
+			c++ $(FLAGS) $^ -lreadline $(LIB) -o $@  
 
 %.o: %.cpp $(HDRS)
-		@c++ $(FLAGS) -c $< -o $@ -I $(INC) -I $(LIBPATH)
+		@c++ $(FLAGS) -c $< -o $@ -I $(INC)
 
 clean :	$(OBJ) $(NAME)
 		@make -C $(LIBPATH) clean

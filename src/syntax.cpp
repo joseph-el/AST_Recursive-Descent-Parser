@@ -11,7 +11,7 @@ bool tokenization::unexpectedSyntax() {
     }
      
     if (l_par += r_par; (l_par % 2))
-        return error("unclosed ", ')'), true;
+        return error("Unclosed parenthesis detected: ", ')'), true;
     return !size() ? 1 : 0;
 }
 
