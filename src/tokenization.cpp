@@ -29,26 +29,31 @@ tokenization* lexer(stringstream& prompt) {
     TOK.push_back(make_pair(-1, END));
     return token;
 }
+/*
+    expand WSPACE
+    () () == () * ()
+    () 2 == () * 2
+    2() == 2 * ()
+*/
 
 void tokenization::expander( void ) {
-    
     for (Itr it = begin(); it != end(); it++) {
-        if (it->second & WSPACE) 
+        if (it->second & WSPACE)
             erase(it);
-    
-        // else if (it->second & FAC) {
-        //     if ((it-1)->second & RPAR) {
-        //         (it-1)->second |= FAC;
-        //         erase(it);
-        //         continue;
-        //     }
-        //     Itr tmp = it;
-        //     it--;
-        //     int num = it->first;
-        //     erase(it);
-        //     tmp->first = num;
-        //     it = tmp;
-        // }
+    }
+    for (Itr it = begin(); it != end(); it++) {
+        switch (it->second)  {
+            case RPAR:
+                if ((it+1)!= end() && ( (it+1)->second & (DIGIT | LPAR) )) 
+                    insert(it + 1, make_pair(-1, MUL));
+                break;
+            case DIGIT:
+                if ((it+1) != end() && (it+1)->second  & LPAR ) 
+                    insert(it + 1, make_pair(-1, MUL));
+                break;
+            default:
+                break;
+        }
     }
 }
 
@@ -162,7 +167,7 @@ bool tokenization::parenthesesSyntax(Itr &current) {
     switch (current->second) {
         case LPAR:
             if (left != -1 && left &~ V_LPAR_LEFT)
-                error(UNEXPECTED, '('), sys = true;
+                error(UNEXPECTED , '('), sys = true;
             else if (right != -1 && right &~ V_LPAR_RIGHT)
                 error(UNEXPECTED, '('), sys = true;
             break;

@@ -39,7 +39,7 @@ enum Token : int {
 
 
 #define V_RPAR_LEFT (RPAR | DIGIT | FAC) //  RPAR left
-#define V_RPAR_RIGHT (BINARY_OPR | LPAR | FAC | DIGIT | END) // RPAR right
+#define V_RPAR_RIGHT (BINARY_OPR | LPAR | RPAR | FAC | DIGIT | END) // RPAR right
 
 #define V_FAC_LEFT (RPAR | DIGIT) // ! left
 #define V_FAC_RIGHT (BINARY_OPR | END | RPAR) // ! right
@@ -80,5 +80,6 @@ class tokenization : public deque< pair<int, int> > {
         void error(const char *, const char );
         void printTokens();
 };
+
 
 tokenization* lexer(stringstream &prompt);

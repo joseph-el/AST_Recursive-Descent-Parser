@@ -3,7 +3,7 @@
 # include "tokenization.hpp"
 
 struct ast {
-    int           val;
+    double           val;
     Token         token;
     struct ast* left;
     struct ast* right;
@@ -21,6 +21,14 @@ class Parser {
         Parser(tokenization*_tokens) : token(_tokens) {
             if (_tokens)
                 it = token->begin();
+            if (it->second == BEGIN) {
+                // cout << "yes being found" << endl;
+                it++;
+                // cout << "tok after += : " << it->second  << endl; 
+                // cout << "check num: " << it->first << endl;
+            }
+
+
         }
         ast*   parser();
         void   scanToken();
@@ -34,5 +42,6 @@ class Parser {
         ast* primary();
 };
 
+extern const char* tokenType[14];
 #define heap Mgr.insertAddress
 
