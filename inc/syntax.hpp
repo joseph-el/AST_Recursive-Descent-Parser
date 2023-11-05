@@ -6,7 +6,7 @@
                 /*  /     +      %     -     *     ^ */
 #define BINARY_OPR (DIV | ADD | MOD | SUB | MUL | POW)
 
-#define V_LPAR_LEFT (BEGIN | DIGIT | BINARY_OPR | RPAR) // ( left
+#define V_LPAR_LEFT (BEGIN | DIGIT | BINARY_OPR | RPAR | LPAR) // ( left
 #define V_LPAR_RIGHT (DIGIT | LPAR) // ( right
 
 #define V_RPAR_LEFT (RPAR | DIGIT | FAC) //  RPAR left

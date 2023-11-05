@@ -2,7 +2,7 @@
 
 ````
 * "(": LPAR
-    - left  : BGN  | - | + | * | / | % | DIGIT | ^ | )
+    - left  : BGN  | - | + | * | / | % | DIGIT | ^ | ) | (
     - right : DIGIT | (
 
 * ")": RPAR

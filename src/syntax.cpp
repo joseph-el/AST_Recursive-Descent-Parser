@@ -23,20 +23,19 @@ bool tokenization::parenthesesSyntax(Itr &current) {
 
     right = FindToken(current + 1, false);
     left  = FindToken(current - 1, true);
-    
     switch (current->second) {
         case LPAR:
             if (left != -1 && left &~ V_LPAR_LEFT)
-                error(UNEXPECTED , '('), sys = true;
+                error(UNEXPECTED "left of " , '('), sys = true;
             else if (right != -1 && right &~ V_LPAR_RIGHT)
-                error(UNEXPECTED, '('), sys = true;
+                error(UNEXPECTED "right of", '('), sys = true;
             break;
     
         case RPAR:
             if (left != -1 && left &~ V_RPAR_LEFT)
-                error(UNEXPECTED, ')'), sys = true;
+                error(UNEXPECTED "left of " , ')'), sys = true;
             else if (right != -1 && right &~ V_RPAR_RIGHT)
-                error(UNEXPECTED, ')'), sys = true;
+                error(UNEXPECTED "right of ", ')'), sys = true;
             break;
         default:
             break;
