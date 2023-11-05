@@ -1,22 +1,10 @@
 # include "../inc/ast.hpp"
 
-const char* tokenType[TOKEN_SIZE] = {"END", "BEGIN",  "(", ")", "0", "WSPACE", "UNK", "/", "+", "%", "-", "*", "^", "!"};
-
-
 ast* Parser::parser() {
-    ast* root = 0x0;
-
+    ast* root;
     root = expression();
-
-    if(!root)
-        return 0x0;
-
-    if (it->second &~ END) {
-        cout << "last tok: " << it->second << endl;
-        cout << "null because it &~ END" << endl;
-        return 0x0;
-    }
-
+    if(!root || it->second &~ END)
+        return nullptr;
     return root;
 }
 
@@ -34,8 +22,7 @@ ast* Parser::expression() {
     ast* root;
     Token tok;
 
-    // cout << "Expersion \n";
-
+    // cerr << "Expersion \n";
     root = term();
     if (!root)
         return nullptr;
@@ -58,8 +45,7 @@ ast* Parser::term() {
     ast* root;
     Token tok;
 
-    // cout << "Term \n";
-
+    // cerr << "Term \n";
     root = factor();
     if (!root)
         return nullptr;
@@ -81,8 +67,7 @@ ast* Parser::factor() {
     ast* root;
     Token tok;
 
-    // cout << "Factor \n";
-
+    // cerr << "Factor \n";
     root = unary_expression();
     if (!root)
         return nullptr;
@@ -104,9 +89,7 @@ ast* Parser::unary_expression() {
     ast* root;
     Token tok;
 
-    // cout << "Unary_expression \n";
-
-
+    // cerr << "Unary_expression \n";
     root = primary();
     tok  = currToken();
     if (!root)
@@ -125,10 +108,8 @@ ast* Parser::primary() {
     ast* root;
     Token tok;
 
-    // cout << "Primary \n";
-    
+    // cerr << "Primary \n";
     tok = currToken();
-
     switch (tok) {
         case LPAR:
             scanToken(); // skip the LPAR
@@ -138,10 +119,9 @@ ast* Parser::primary() {
         case DIGIT:
             root = new ast(nullptr, nullptr, tok, it->first);
             scanToken();
-            // cout << "after creat : " << it->first << endl;
             break;
         default:
-            cout << "other in primary switch \n";
+            cerr << "other in primary switch " << endl;
             break;
     }
     return root; 
