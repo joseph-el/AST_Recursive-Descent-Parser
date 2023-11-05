@@ -1,4 +1,4 @@
-# include "../inc/RDB.hpp"
+# include "rdb_main.hpp"
 
 int rdb_main(__unused int argc, __unused char *argv[] ) {
     tokenization* tokens;
@@ -7,22 +7,22 @@ int rdb_main(__unused int argc, __unused char *argv[] ) {
     ast*          root;
 
     while (true) {
-		prompt = readline(GREEN "equation> " WHITE);
+		prompt = readline(GREEN "equation:> " WHITE);
         if (!prompt)
             break;
-        gc_insert(prompt);
-        stringstream ss(string(prompt));
+        add_history(prompt), gc_insert(prompt);
+        stringstream ss(prompt);
         tokens = lexer(ss);
         if (!tokens || !tokens->syntax())
             goto done;
-        parser = gc_insert(new Parser(tokens));
+        parser = (Parser *)gc_insert(new Parser(tokens));
         if (!parser || !(root = parser->parser())) {
-            tokens->error("", "");
+            tokens->error(UNEXPECTED);
             goto done;
         }
         print_ast("", root, false);
-        equationResult(root);
-        print_equationResult(tokens, root);
+        eval(root);
+        equationResult(tokens, root);
         done:
             clearHeap;
     }

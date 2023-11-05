@@ -1,4 +1,4 @@
-#include "../inc/syntax.hpp"
+# include "rdb_main.hpp"
 
 bool tokenization::unexpectedSyntax() {
     auto l_par = 0, r_par = 0;

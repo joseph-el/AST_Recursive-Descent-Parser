@@ -1,17 +1,15 @@
 #include "readline.h"
 
-/*------------- proto ---------------*/
 static int	rd_len_sep_string(const char *str);
 static char	*rd_get_next_word(int *index, const char *str, int *tmp);
 
-/* ================================= */
 
 int	rd_is_sep(char c)
 {
 	return ((c >= 9 && c <= 13) || c == ' ' || c == ';' || c == 34 || c == 39);
 }
 
-char	**rd_list_files(char *curr_dir, char *line, int cursor, int (*cmp)())
+char	**rd_list_files(char *curr_dir, char *line, int cursor, int (*cmp)(const char *, const char *, int))
 {
 	DIR				*dirp;
 	char			**ret;

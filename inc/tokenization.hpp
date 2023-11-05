@@ -5,7 +5,7 @@
 #include <set>
 #include <cmath>
 
-#include "RDB.hpp"
+# include "rdb_main.hpp"
 
 #define TOK (*token)
 #define TOKEN_SIZE 14
@@ -55,7 +55,7 @@ class tokenization : public deque< pair<int, int> > {
         bool binarySyntax(Itr &);
         bool unarySyntax(Itr &);
     
-        void error(const char *, const char );
+        void error(const char *, const char x = '?' );
         void printTokens();
 };
 

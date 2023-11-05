@@ -1,9 +1,5 @@
 #include "readline.h"
 
-/*------------- proto ---------------*/
-
-/* ================================= */
-
 char	*rd_cat_line(char *line, int pos, char c)
 {
 	int		i;

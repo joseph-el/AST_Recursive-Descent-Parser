@@ -1,4 +1,4 @@
-#include "../inc/tokenization.hpp"
+# include "rdb_main.hpp"
 
 const char* tokenType[TOKEN_SIZE] = {"END", "BEGIN",  "(", ")", "0", "WSPACE", "UNK", "/", "+", "%", "-", "*", "^", "!"};
  /* Lexer */

@@ -1,6 +1,6 @@
 #include "readline.h"
 
-/*------------- proto ---------------*/
+
 void		rd_write_prompt(char *prompt, int ret);
 void		rd_files_manager(void);
 t_readline	rd_readline_init(char *prompt);
@@ -10,7 +10,7 @@ void		rd_do_backspace(t_readline *rdl);
 void		rd_move_cursor(t_readline *rdl);
 void		rd_treat_char(char c, t_readline *rdl);
 
-/* ================================= */
+
 void	rd_write_prompt(char *prompt, int ret)
 {
 	if (!ret)

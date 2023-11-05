@@ -1,7 +1,7 @@
 #ifndef  __SYNTAX_H__
 # define __SYNTAX_H__
 
-#include "RDB.hpp"
+# include "rdb_main.hpp"
 
                 /*  /     +      %     -     *     ^ */
 #define BINARY_OPR (DIV | ADD | MOD | SUB | MUL | POW)

@@ -1,10 +1,18 @@
-NAME := ast #set to rdb
+NAME := rdb_exc #set to rdb
 
 FLAGS := -std=c++17 -fsanitize=address -g3
-SRC := src/manageHeap.cpp src/tokenization.cpp src/main.cpp src/ast.cpp
-HDR := inc/Calculator.hpp inc/manageHeap.hpp inc/tokenization.hpp inc/ast.hpp
 
-OBJ := $(SRC:%.cpp=%.o)
+SRCS := src/manageHeap.cpp src/tokenization.cpp src/rdb_main.cpp src/ast.cpp src/syntax.cpp src/equationResult.cpp src/print_ast.cpp
+
+INC  := inc/
+HDRS := rdb_main.hpp manageHeap.hpp tokenization.hpp ast.hpp syntax.hpp
+HDRS := $(addprefix $(INC), $(HDRS))
+
+OBJ := $(SRCS:%.cpp=%.o)
+
+LIBPATH := 	lib/
+LIB := $(addprefix $(LIBPATH), readline.a)
+
 
 all : $(NAME)
 		@echo "ast [✅]"
@@ -12,10 +20,14 @@ all : $(NAME)
 $(NAME) : $(OBJ)	
 		@c++ $(FLAGS) $^ -o $@
 
-%.o: %.cpp $(HEADERS)
-		@c++ $(FLAGS) -c $< -o $@
+$(LIB) : $(addprefix $(LIBPATH), readline.h)
+			@make -C  $(LIBPATH) re
+
+%.o: %.cpp $(HDRS)
+		@c++ $(FLAGS) -c $< -o $@ -I $(INC) -I $(LIBPATH)
 
 clean :	$(OBJ) $(NAME)
+		@make -C $(LIBPATH) clean
 		@rm -f $^ 
 		@echo "Clean [✅]"
 

@@ -1,4 +1,4 @@
-# include "../inc/RDB.hpp"
+# include "rdb_main.hpp"
 
 #define left_value  root->left->val
 #define right_value root->right->val
@@ -34,11 +34,11 @@ double _factorial(double X) {
     return 1;
 }
 
-void equationResult(ast* root) {
+void eval(ast* root) {
     if (!root)
         return ;
-    equationResult(root->right);
-    equationResult(root->left);
+    eval(root->right);
+    eval(root->left);
 
     switch (root->token) {
         case ADD:

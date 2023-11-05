@@ -1,4 +1,4 @@
-# include "../inc/ast.hpp"
+# include "rdb_main.hpp"
 
 ast* Parser::parser() {
     ast* root;

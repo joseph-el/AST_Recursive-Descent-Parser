@@ -1,12 +1,10 @@
 #include "readline.h"
 
-/*------------- proto ---------------*/
 char	rd_past_char(FILE *flux, int mode);
 char	rd_next_char(FILE *flux, int mode);
 int	rd_getidx_past_line(FILE *flux);
 int	rd_getidx_next_line(FILE *flux);
 
-/* ================================= */
 
 FILE	*rd_new_flux(char *name, char *mode)
 {
