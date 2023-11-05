@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "deque": "cpp",
-        "iterator": "cpp",
-        "utility": "cpp",
-        "ios": "cpp",
-        "iosfwd": "cpp"
-    }
-}
