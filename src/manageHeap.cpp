@@ -13,7 +13,7 @@ void* HeapMgr::insertAddress(void* address) {
     return address;
 }
 
-void HeapMgr::clearHeap() {
+void HeapMgr::_clearHeap() {
     MgrIt it = begin();
     while (it != end()) {
         free(*it);

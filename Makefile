@@ -1,4 +1,4 @@
-NAME := rdb_exc #set to rdb
+NAME := rdb_exec #set to rdb
 
 FLAGS := -std=c++17 -fsanitize=address -g3
 
@@ -15,9 +15,10 @@ LIB := $(addprefix $(LIBPATH), readline.a)
 
 
 all : $(NAME)
-		@echo "ast [✅]"
+		@echo "readline [✅]"
+		@echo "rdb_exec [✅]"
 
-$(NAME) : $(OBJ)	
+$(NAME) : $(LIB) $(OBJ)	
 		@c++ $(FLAGS) $^ -o $@
 
 $(LIB) : $(addprefix $(LIBPATH), readline.h)

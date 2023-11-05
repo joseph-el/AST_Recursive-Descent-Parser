@@ -13,12 +13,12 @@ struct HeapMgr : public deque<void *> {
         typedef HeapMgr::iterator MgrIt;
         HeapMgr();
         void* insertAddress(void *);
-        void clearHeap();
+        void _clearHeap();
 };
 
 extern HeapMgr Mgr;
 
-#define clearHeap Mgr.clearHeap()
+#define clearHeap Mgr._clearHeap()
 #define gc_insert(address) (Mgr.insertAddress((address)))
 
 #endif

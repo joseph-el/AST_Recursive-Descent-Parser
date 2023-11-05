@@ -15,7 +15,6 @@ DEBUG	=
 	@${CC} ${FLAGS} ${INCLUDE} ${DEBUG} -c $< -o ${<:.c=.o}
 
 all	:	${NAME}
-	echo "readline [✅]"
 
 $(NAME)	:	${OBJS}
 	@ar -rcs ${NAME} ${OBJS}

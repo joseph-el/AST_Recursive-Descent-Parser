@@ -34,6 +34,6 @@ extern "C" {
 
 void print_ast(const string&, const ast*, bool);
 void equationResult(tokenization*, ast*);
-void eval(const ast*);
+void eval(ast*);
 
 #endif

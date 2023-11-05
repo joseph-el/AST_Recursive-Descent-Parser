@@ -7,7 +7,7 @@ int rdb_main(__unused int argc, __unused char *argv[] ) {
     ast*          root;
 
     while (true) {
-		prompt = readline(GREEN "equation:> " WHITE);
+		prompt = readline((char *)"equation:> ", 0);
         if (!prompt)
             break;
         add_history(prompt), gc_insert(prompt);

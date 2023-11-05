@@ -44,7 +44,7 @@ typedef struct
 }	t_auto_compl;
 
 
-char			*readline(char *prompt, int ret = 0);
+char			*readline(char *prompt, int ret);
 void			add_history(char *line);
 void			clear_history(void);
 void			rd_close_flux(t_readline *rdl);
