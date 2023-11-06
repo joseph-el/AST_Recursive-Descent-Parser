@@ -1,6 +1,6 @@
 ## Overview
 
-This repository contains an implementation of a Recursive Descent Parser (RDB) for a simple arithmetic expression language using C++17, along with the construction of Abstract Syntax Trees (AST) from parsed expressions. The grammar and syntax rules defined here serve as the foundation for parsing mathematical expressions.
+This repository contains an implementation of a Recursive Descent Parser (RDB) for arithmetic expression language using ```C++17```, along with the construction of Abstract Syntax Trees (AST) from parsed expressions. The grammar and syntax rules defined here serve as the foundation for parsing mathematical expressions.
 
 <img width="1131" alt="rdb" src="https://github.com/joseph-el/Recursive-Descent-Parser-AST/assets/80905157/9bce961c-1f39-4f1b-a196-6f5600b23a85">
 
@@ -93,5 +93,5 @@ To build and run the project, follow these steps:
 
 The command-line interface includes the following features:
 
-- Command interpretation for `"clear"`, `"reset"` and `"exit"`.
+- Command interpretation for `"clear"` `"reset"` `"exit"`.
 - Integration with the `readline` library for command history.
