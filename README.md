@@ -2,7 +2,7 @@
 
 This repository contains an implementation of a ```Recursive Descent Parser (RDB)``` for arithmetic expression language using ```C++17```, along with the construction of ```Abstract Syntax Trees (AST)``` from parsed expressions. The grammar and syntax rules defined here serve as the foundation for parsing mathematical expressions.
 
-<img width="1131" alt="rdb" src="https://github.com/joseph-el/Recursive-Descent-Parser-AST/assets/80905157/9bce961c-1f39-4f1b-a196-6f5600b23a85">
+<img width="1131" alt="rdb" src="https://github.com/joseph-el/AST_Recursive-Descent-Parser/assets/80905157/9bce961c-1f39-4f1b-a196-6f5600b23a85">
 
 ## BNF Grammar
 
