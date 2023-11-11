@@ -31,7 +31,7 @@ ast* Parser::expression() {
         tok = currToken();
         if (tok & (ADD | SUB)) {
             scanToken();
-            root = new ast(root,  term(), tok, -1);
+            root = (ast *)gc_insert(new ast(root,  term(), tok, -1));
             if (!root)
                 return nullptr;       
         } else
@@ -54,7 +54,7 @@ ast* Parser::term() {
         tok = currToken();
         if (tok &  (MUL | MOD | DIV)) {
             scanToken();
-            root = new ast(root, factor(), tok, -1);
+            root = (ast *)gc_insert(new ast(root, factor(), tok, -1));
             if (!root)
                 return nullptr;
         } else
@@ -76,7 +76,7 @@ ast* Parser::factor() {
         tok = currToken();
         if (tok & POW) {
             scanToken();
-            root = new ast(root, unary_expression(), tok, -1);
+            root = (ast *)gc_insert(new ast(root, unary_expression(), tok, -1));
             if (!root)
                 return nullptr;
         } else
@@ -97,7 +97,7 @@ ast* Parser::unary_expression() {
         return nullptr;
     if (tok & FAC) {
         scanToken();
-        root = new ast(root, nullptr, tok, -1);
+        root = (ast *)gc_insert(new ast(root, nullptr, tok, -1));
         if (!root)
             return nullptr;
     }
@@ -118,7 +118,7 @@ ast* Parser::primary() {
             scanToken(); // 100% the next is ) by the syntax 😀
             break;
         case DIGIT:
-            root = new ast(nullptr, nullptr, tok, it->first);
+            root = (ast *)gc_insert(new ast(nullptr, nullptr, tok, it->first));
             scanToken();
             break;
         default:

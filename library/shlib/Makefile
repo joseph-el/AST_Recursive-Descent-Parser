@@ -32,7 +32,7 @@ datarootdir = ${prefix}/share
 srcdir = .
 VPATH = ..
 topdir = ..
-BUILD_DIR = /Users/joseph/Desktop/rdb/library
+BUILD_DIR = /Users/yoel-idr/Desktop/rdb/library
 
 INSTALL = /usr/bin/install -c
 INSTALL_PROGRAM = ${INSTALL}
@@ -49,7 +49,7 @@ LN = ln
 
 SHELL = /bin/sh
 
-host_os = darwin22.4.0
+host_os = darwin18.7.0
 host_vendor = apple
 
 prefix = /usr/local

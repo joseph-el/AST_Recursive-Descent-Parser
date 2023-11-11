@@ -12,6 +12,10 @@ extern "C" {
 #include  "tokenization.hpp"
 #include  "ast.hpp"
 
+#if !defined(__unused)
+    #define __unused __attribute__((unused))
+#endif
+
 #define rdb_main main
 
 #define left_value    root->left->val

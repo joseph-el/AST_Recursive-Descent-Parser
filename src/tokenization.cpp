@@ -7,7 +7,7 @@ tokenization* lexer(stringstream& prompt) {
     tokenization* token;
     char          _c = 0;
     int           _number = 0;
-    token = (tokenization*)Mgr.insertAddress(new tokenization());
+    token = (tokenization*)gc_insert(new tokenization());
     if (!token)
         return nullptr;
     while (prompt.get(_c)) {

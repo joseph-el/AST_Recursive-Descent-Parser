@@ -31,7 +31,7 @@ PACKAGE_TARNAME = readline
 srcdir = .
 
 top_srcdir = .
-BUILD_DIR = /Users/joseph/Desktop/rdb/library
+BUILD_DIR = /Users/yoel-idr/Desktop/rdb/library
 
 INSTALL = /usr/bin/install -c
 INSTALL_PROGRAM = ${INSTALL}
