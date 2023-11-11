@@ -14,10 +14,12 @@ void* HeapMgr::insertAddress(void* address) {
 }
 
 void HeapMgr::_clearHeap() {
-    MgrIt it = begin();
-    while (it != end()) {
-        delete * it;
-        *it = NULL;
-        it = erase(it);
-    }
+    #if defined(__APPLE__) && defined(__MACH__) 
+        MgrIt it = begin();
+        while (it != end()) {
+            delete * it;
+            *it = NULL;
+            it = erase(it);
+        }
+    #endif
 }
